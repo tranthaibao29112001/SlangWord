@@ -1,7 +1,4 @@
-import java.io.BufferedReader;
-import java.io.FileReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
+import java.io.*;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -28,7 +25,7 @@ public class Main {
                     case 1:{
                         System.out.println("Nhập SlangWord muốn tìm: ");
                         str = br.readLine();
-                        SlangWord slangWord  = slangWords.get(str);
+                        SlangWord slangWord = findSlangWord(str);
                         if(slangWord ==null){
                             System.out.println("Không tồn tại SlangWord.");
                         }
@@ -41,9 +38,7 @@ public class Main {
                     case 2:{
                         System.out.println("Nhập định nghĩa:");
                         str = br.readLine();
-                        CharSequence charSequence = str;
-                        Predicate<SlangWord> definitionFilter =  slangWord -> slangWord.getDefinition().contains(charSequence);
-                        List<SlangWord> filterList = slangWordArrayList.stream().filter(definitionFilter).collect(Collectors.toList());
+                        List<SlangWord> filterList = findSlangWordByDefinition(str);
                         for (int i=0;i<filterList.size();i++){
                             System.out.println(filterList.get(i));
                         }
@@ -74,14 +69,68 @@ public class Main {
                         break;
                     }
                     case 4:{
+                        Boolean isCorrect = false;
+                        do{
+                            System.out.println("Nhập Slangword cần thêm:");
+                            String slang = br.readLine();
+                            System.out.println("Nhập định nghĩa:");
+                            String definition = br.readLine();
+                            isCorrect = addNewSlangWord(slang,definition);
+                            if(!isCorrect){
+                                System.out.println("SlangWord đã tồn tại.");
+                            }
+                        }
+                        while (!isCorrect);
                         break;
                     }
                     case 5:{
+                        System.out.println("Nhập SlangWord cần chỉnh sửa:");
+                        String oldSlang  = br.readLine();
+                        SlangWord editSlang = findSlangWord(oldSlang);
+                        if(editSlang==null){
+                            System.out.println("SlangWord không tồn tại.");
+                        }
+                        else{
+                            System.out.println(editSlang);
+                            System.out.println("Chọn thành phần muốn chỉnh sửa:");
+                            System.out.println("1. Slang        2. Definition");
+                            str = br.readLine();
+                            String newSlang = editSlang.getSlangWord();
+                            String newDefinition = editSlang.getDefinition();
+                            switch (Integer.parseInt(str)){
+                                case 1:{
+                                    System.out.println("Nhập Slangword mới:");
+                                    newSlang = br.readLine();
 
+                                    break;
+                                }
+                                case 2:{
+                                    System.out.println("Nhập định nghĩa mới:");
+                                    newDefinition = br.readLine();
+                                    break;
+                                }
+                            }
+                            boolean res = editSlangword(editSlang,newSlang,newDefinition);
+                            if(res){
+                                System.out.println("Chỉnh sưa thành công");
+                                System.out.println("Kết quả: "+ editSlang);
+                            }
+                            else{
+                                System.out.println("SlangWord mới có thể đã tồn tại.");
+                            }
+                        }
                         break;
                     }
                     case 6:{
-
+                        System.out.println("Nhập SlangWord muốn xóa:");
+                        str = br.readLine();
+                        boolean res = deleteSlangWord(str);
+                        if(res){
+                            System.out.println("Xóa thành công");
+                        }
+                        else{
+                            System.out.println("Xóa thất bại");
+                        }
                         break;
                     }
                     default:{
@@ -91,11 +140,71 @@ public class Main {
                 }
                 System.out.println("Nhấn Enter để tiếp tục.");
                 br.readLine();
+
             }
             catch (Exception exception){
                 continue;
             }
 
+        }
+    }
+    public static SlangWord findSlangWord(String slang){
+        SlangWord slangWord  = slangWords.get(slang);
+
+        return slangWord;
+    }
+    public static List<SlangWord> findSlangWordByDefinition(String definition){
+        CharSequence charSequence = definition;
+        Predicate<SlangWord> definitionFilter =  slangWord -> slangWord.getDefinition().contains(charSequence);
+        List<SlangWord> filterList = slangWordArrayList.stream().filter(definitionFilter).collect(Collectors.toList());
+        return filterList;
+    }
+    public static boolean addNewSlangWord(String slang, String definition) throws IOException {
+        SlangWord slangWord = new SlangWord(slang,definition);
+        if(slangWords.containsKey(slang)){
+            return false;
+        }
+        else{
+            slangWordArrayList.add(slangWord);
+            slangWords.put(slang,slangWord);
+            return true;
+        }
+    }
+    public static boolean editSlangword(SlangWord oldSlangWord,String newSlang, String newDefinition) {
+        if(findSlangWord(newSlang)!=null){
+            return false;
+        }
+        try {
+            slangWords.remove(oldSlangWord.getSlangWord());
+            oldSlangWord.setSlangWord(newSlang);
+            oldSlangWord.setDefinition(newDefinition);
+            slangWords.put(newSlang,oldSlangWord);
+            return true;
+        }
+        catch (Exception e){
+            return false;
+        }
+    }
+    public static boolean deleteSlangWord(String slang) throws IOException {
+        SlangWord removeSlang = slangWords.get(slang);
+        if(removeSlang==null){
+            return false;
+        }
+        else{
+            System.out.println("Bạn có chắc muốn xóa SlangWord này:  "+ removeSlang);
+            System.out.println("1. Đồng ý           2. Không đồng ý");
+            BufferedReader br = new BufferedReader(
+                    new InputStreamReader(System.in, "utf8"));
+            String str = br.readLine();
+            if(Integer.parseInt(str)==1){
+                slangWords.remove(removeSlang.getSlangWord());
+                slangWordArrayList.remove(removeSlang);
+
+                return true;
+            }
+            else {
+                return  false;
+            }
         }
     }
     public static void printMenu(){

@@ -118,6 +118,7 @@ public class Main {
                             else{
                                 System.out.println("SlangWord mới có thể đã tồn tại.");
                             }
+
                         }
                         break;
                     }
@@ -188,7 +189,7 @@ public class Main {
         }
     }
     public static boolean editSlangword(SlangWord oldSlangWord,String newSlang, String newDefinition) {
-        if(findSlangWord(newSlang)!=null){
+        if(findSlangWord(newSlang)!=null && !oldSlangWord.getSlangWord().equals(newSlang)){
             return false;
         }
         try {
@@ -199,6 +200,7 @@ public class Main {
             return true;
         }
         catch (Exception e){
+
             return false;
         }
     }

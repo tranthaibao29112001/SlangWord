@@ -133,6 +133,23 @@ public class Main {
                         }
                         break;
                     }
+                    case 7:{
+                        System.out.println("Bạn có muốn reset lại danh sách SlangWord");
+                        System.out.println("1. Có       2. Không");
+                        str = br.readLine();
+                        if(Integer.parseInt(str)==1){
+                            if(resetSlangWords()){
+                                System.out.println("Reset thành công");
+                            }
+                            else {
+                                System.out.println("Đã xảy ra lỗi.");
+                            }
+                        }
+                        else{
+                            System.out.println("Reset thất bại");
+                        }
+
+                    }
                     default:{
                         isContinue = false;
                         break;
@@ -207,7 +224,7 @@ public class Main {
             }
         }
     }
-    public static void printMenu(){
+    public static void printMenu()  {
         System.out.println("SLANGWORD");
         System.out.println("1.Tiềm kiếm SlangWord");
         System.out.println("2.Tìm kiếm theo định nghĩa");
@@ -220,6 +237,30 @@ public class Main {
         System.out.println("9.Đố vui SlangWord");
         System.out.println("10.Đố vui Definition");
         System.out.println("Nhập số tương ứng với tính năng muốn chọn:");
+    }
+    public static boolean resetSlangWords() throws IOException {
+        try {
+            slangWordArrayList.clear();
+            slangWords.clear();
+            BufferedReader br = new BufferedReader(new FileReader("firstSlang.txt"));
+            String str = br.readLine();
+            while(true){
+                str= br.readLine();
+                if(str ==null){
+                    break;
+                }
+                else{
+                    SlangWord slangWord = convertStringToSangWord(str);
+                    slangWordArrayList.add(slangWord);
+                    slangWords.put(slangWord.getSlangWord(),slangWord);
+                }
+            }
+            br.close();
+        }
+        catch (Exception e){
+            return false;
+        }
+        return true;
     }
     public static void initSlangWords() throws IOException {
         BufferedReader br = new BufferedReader(new FileReader("slang.txt"));

@@ -149,7 +149,7 @@ public class Main {
                         else{
                             System.out.println("Reset thất bại");
                         }
-
+                        break;
                     }
                     default:{
                         isContinue = false;
@@ -244,7 +244,8 @@ public class Main {
         try {
             slangWordArrayList.clear();
             slangWords.clear();
-            BufferedReader br = new BufferedReader(new FileReader("firstSlang.txt"));
+
+            BufferedReader br = new BufferedReader(new FileReader("slang.txt"));
             String str = br.readLine();
             while(true){
                 str= br.readLine();
@@ -260,6 +261,7 @@ public class Main {
             br.close();
         }
         catch (Exception e){
+            System.out.println(e);
             return false;
         }
         return true;

@@ -1,8 +1,5 @@
 import java.io.*;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Stack;
+import java.util.*;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
@@ -151,6 +148,10 @@ public class Main {
                         }
                         break;
                     }
+                    case 8:{
+                        randomSlangWord();
+                        break;
+                    }
                     default:{
                         isContinue = false;
                         break;
@@ -225,6 +226,11 @@ public class Main {
                 return  false;
             }
         }
+    }
+    public static void randomSlangWord(){
+        Random random = new Random();
+        int index = random.nextInt(slangWordArrayList.size());
+        System.out.println("Từ vừa Random: "+ slangWordArrayList.get(index).toString());
     }
     public static void printMenu()  {
         System.out.println("SLANGWORD");

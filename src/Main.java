@@ -149,7 +149,8 @@ public class Main {
                         break;
                     }
                     case 8:{
-                        randomSlangWord();
+                        System.out.println("Từ vừa Random: "+randomSlangWord());
+
                         break;
                     }
                     default:{
@@ -166,6 +167,10 @@ public class Main {
             }
 
         }
+    }
+    public static void miniGameSlang(){
+        System.out.println("Đâu là định nghĩa của SlangWord sau:");
+
     }
     public static SlangWord findSlangWord(String slang){
         SlangWord slangWord  = slangWords.get(slang);
@@ -227,10 +232,11 @@ public class Main {
             }
         }
     }
-    public static void randomSlangWord(){
+    public static SlangWord randomSlangWord(){
         Random random = new Random();
         int index = random.nextInt(slangWordArrayList.size());
-        System.out.println("Từ vừa Random: "+ slangWordArrayList.get(index).toString());
+
+        return slangWordArrayList.get(index);
     }
     public static void printMenu()  {
         System.out.println("SLANGWORD");

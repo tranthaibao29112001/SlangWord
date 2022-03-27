@@ -156,6 +156,9 @@ public class Main {
                         miniGameSlang();
                         break;
                     }
+                    case 10:{
+                        miniGameDefinition();
+                    }
                     default:{
                         isContinue = false;
                         break;
@@ -179,8 +182,7 @@ public class Main {
        Random random = new Random();
        int indexResult = random.nextInt(4);
        SlangWord result = listSlangWordForMiniGame.get(indexResult);
-        System.out.println("Đâu là định nghĩa của SlangWord sau:");
-        System.out.println(result.getSlangWord());
+        System.out.println("Đâu là định nghĩa của \""+result.getSlangWord()+"\":");
         System.out.println("A. "+ listSlangWordForMiniGame.get(0).getDefinition());
         System.out.println("B. "+ listSlangWordForMiniGame.get(1).getDefinition());
         System.out.println("C. "+ listSlangWordForMiniGame.get(2).getDefinition());
@@ -220,6 +222,8 @@ public class Main {
         if(Integer.parseInt(str)==1){
             miniGameSlang();
         }
+    }
+    public static void miniGameDefinition() throws IOException {
 
     }
     public static SlangWord findSlangWord(String slang){

@@ -179,7 +179,7 @@ public class Main {
             catch (Exception exception){
                 continue;
             }
-
+            updateSlangFile();
         }
     }
     public static void miniGameSlang() throws IOException {
@@ -364,8 +364,41 @@ public class Main {
         try {
             slangWordArrayList.clear();
             slangWords.clear();
-
             BufferedReader br = new BufferedReader(new FileReader("slang.txt"));
+            String str = br.readLine();
+            while(true){
+                str= br.readLine();
+                if(str ==null){
+                    break;
+                }
+                else{
+                    SlangWord slangWord = convertStringToSangWord(str);
+                    slangWordArrayList.add(slangWord);
+                    slangWords.put(slangWord.getSlangWord(),slangWord);
+                }
+            }
+            updateSlangFile();
+            br.close();
+        }
+        catch (Exception e){
+            System.out.println("Vui lòng tạo file slang.txt gốc");
+            return false;
+        }
+        return true;
+    }
+    public static void updateSlangFile() throws IOException {
+        BufferedWriter br = new BufferedWriter(
+                new FileWriter("edited-slang.txt"));
+        br.write(slangWordArrayList.size()+"\n");
+        for(int i = 0;i<slangWordArrayList.size();i++){
+            br.write(slangWordArrayList.get(i).getSlangWord()+"`"+slangWordArrayList.get(i).getDefinition()+"\n");
+        }
+        br.flush();
+        br.close();
+    }
+    public static void initSlangWords() throws IOException {
+        try {
+            BufferedReader br = new BufferedReader(new FileReader("edited-slang.txt"));
             String str = br.readLine();
             while(true){
                 str= br.readLine();
@@ -381,26 +414,8 @@ public class Main {
             br.close();
         }
         catch (Exception e){
-            System.out.println(e);
-            return false;
+            resetSlangWords();
         }
-        return true;
-    }
-    public static void initSlangWords() throws IOException {
-        BufferedReader br = new BufferedReader(new FileReader("slang.txt"));
-        String str = br.readLine();
-        while(true){
-            str= br.readLine();
-            if(str ==null){
-                break;
-            }
-            else{
-                SlangWord slangWord = convertStringToSangWord(str);
-                slangWordArrayList.add(slangWord);
-                slangWords.put(slangWord.getSlangWord(),slangWord);
-            }
-        }
-        br.close();
     }
     public static SlangWord convertStringToSangWord(String str){
         String[] tokens =  str.split("`");

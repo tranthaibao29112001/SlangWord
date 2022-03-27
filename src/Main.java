@@ -224,7 +224,53 @@ public class Main {
         }
     }
     public static void miniGameDefinition() throws IOException {
-
+        ArrayList<SlangWord> listSlangWordForMiniGame = new ArrayList<>();
+        for(int i=0;i<4;i++){
+            listSlangWordForMiniGame.add(randomSlangWord());
+        }
+        Random random = new Random();
+        int indexResult = random.nextInt(4);
+        SlangWord result = listSlangWordForMiniGame.get(indexResult);
+        System.out.println("Đâu là SlangWord của \""+result.getDefinition()+"\" trong các SlangWord sau:");
+        System.out.println("A. "+ listSlangWordForMiniGame.get(0).getSlangWord());
+        System.out.println("B. "+ listSlangWordForMiniGame.get(1).getSlangWord());
+        System.out.println("C. "+ listSlangWordForMiniGame.get(2).getSlangWord());
+        System.out.println("D. "+ listSlangWordForMiniGame.get(3).getSlangWord());
+        System.out.println("Mời chọn kết quả: ");
+        BufferedReader br = new BufferedReader(
+                new InputStreamReader(System.in, "utf8"));
+        String str = br.readLine();
+        int userChosen = -1;
+        switch (str){
+            case "A","a":{
+                userChosen = 0;
+                break;
+            }
+            case "B","b":{
+                userChosen = 1;
+                break;
+            }
+            case "C","c":{
+                userChosen = 2;
+                break;
+            }
+            case "D","d":{
+                userChosen = 3;
+                break;
+            }
+        }
+        if(userChosen == indexResult){
+            System.out.println("Chính xác: "+ result.toString());
+        }
+        else{
+            System.out.println("Không chính xác. Kết quả là: "+ result.toString());
+        }
+        System.out.println("Bạn có muốn tiếp tục: ");
+        System.out.println("1. Có       2. Không");
+        str = br.readLine();
+        if(Integer.parseInt(str)==1){
+            miniGameDefinition();
+        }
     }
     public static SlangWord findSlangWord(String slang){
         SlangWord slangWord  = slangWords.get(slang);

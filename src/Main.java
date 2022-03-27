@@ -159,8 +159,16 @@ public class Main {
                     case 10:{
                         miniGameDefinition();
                     }
+                    case 11:{
+                        System.out.println("Bạn có chắc muốn thoát chương trình:");
+                        System.out.println("1.  Có      2. Không");
+                        str = br.readLine();
+                        if(str.equals("1")){
+                            return;
+                        }
+
+                    }
                     default:{
-                        isContinue = false;
                         break;
                     }
                 }
@@ -349,6 +357,7 @@ public class Main {
         System.out.println("8.Random 1 SlangWords");
         System.out.println("9.Đố vui SlangWord");
         System.out.println("10.Đố vui Definition");
+        System.out.println("11.Thoát chương trình");
         System.out.println("Nhập số tương ứng với tính năng muốn chọn:");
     }
     public static boolean resetSlangWords() throws IOException {

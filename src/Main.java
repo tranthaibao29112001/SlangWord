@@ -1,4 +1,5 @@
 import java.io.*;
+import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
@@ -6,8 +7,6 @@ import java.util.stream.Collectors;
 public class Main {
     static HashMap<String,SlangWord> slangWords = new HashMap<String,SlangWord>();
     static ArrayList<SlangWord> slangWordArrayList = new ArrayList<>();
-    static ArrayList<SlangWord> slangSearchHistory =  new ArrayList<>();
-    static HashMap<String,List<SlangWord>> definitionSearchHistory = new HashMap<String,List<SlangWord>>();
     public static void main(String[] args) throws IOException {
         initSlangWords();
         boolean isContinue = true;
@@ -28,7 +27,7 @@ public class Main {
                         }
                         else{
                             System.out.println(slangWord);
-                            slangSearchHistory.add(slangWord);
+                            updateSlangHistory(slangWord);
                         }
                         break;
                     }
@@ -36,11 +35,13 @@ public class Main {
                         System.out.println("Nhập định nghĩa:");
                         str = br.readLine();
                         List<SlangWord> filterList = findSlangWordByDefinition(str);
+                        if(filterList.size()==0){
+                            System.out.println("Không tồn tại SlangWord nào phù hợp");
+                        }
                         for (int i=0;i<filterList.size();i++){
                             System.out.println(filterList.get(i));
                         }
-                        definitionSearchHistory.put(str,filterList);
-
+                        updateDefinitionHistory(str,filterList);
                         break;
                     }
                     case 3:{
@@ -49,20 +50,29 @@ public class Main {
                         str = br.readLine();
                         switch (Integer.parseInt(str)){
                             case 1:{
-                                for (int i=0;i<slangSearchHistory.size();i++){
-                                    System.out.println(i+1 +" - " +slangSearchHistory.get(i));
+                                if(printSlangHistory()){
+                                    System.out.println("\nBạn có muốn xóa toàn bộ lịch sử: ");
+                                    System.out.println("1. Có       2. Không");
+                                    if(br.readLine().equals("1")){
+                                        clearSlangHistory();
+                                    }
                                 }
+
                                 break;
                             }
                             case 2:{
-                                int i = 0;
-                                for(String key:definitionSearchHistory.keySet()){
-                                    System.out.println(i+1+" - " + key+" - "+definitionSearchHistory.get(key));
-                                    i++;
+                                if(printDefinitionHistory()){
+                                    System.out.println("Bạn có muốn xóa toàn bộ lịch sử: ");
+                                    System.out.println("1. Có       2. Không");
+                                    if(br.readLine().equals("1")){
+                                        clearDefinitionHistory();
+                                    }
                                 }
+
                                 break;
                             }
                         }
+
                         break;
                     }
                     case 4:{
@@ -396,10 +406,97 @@ public class Main {
         br.flush();
         br.close();
     }
+    public static void clearSlangHistory() throws IOException {
+        File slangHistoryFile = new File("slangHistory.txt");
+        if(slangHistoryFile.exists()){
+            slangHistoryFile.delete();
+        }
+
+    }
+    public static void clearDefinitionHistory(){
+        File definitionHistoryFile = new File("definitionHistory.txt");
+        if(definitionHistoryFile.exists()){
+            definitionHistoryFile.delete();
+        }
+    }
+    public static void updateSlangHistory(SlangWord slangWord) throws IOException {
+        SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
+        Date date = new Date();
+        String dateStr = formatter.format(date);
+        BufferedWriter br = new BufferedWriter(
+                new FileWriter("slangHistory.txt",true));
+        br.write(dateStr+":     "+slangWord.toString()+"\n");
+        br.flush();
+        br.close();
+    }
+    public static boolean printSlangHistory(){
+        try {
+            File slangHistoryFile = new File("slangHistory.txt");
+            if(!slangHistoryFile.exists()){
+                System.out.println("Chưa có lịch sử tìm kiếm");
+                return false;
+            }
+            BufferedReader br = new BufferedReader(new FileReader(slangHistoryFile));
+            String str = br.readLine();
+            while(true){
+                if(str ==null){
+                    break;
+                }
+                else{
+                    System.out.println(str);
+                }
+                str= br.readLine();
+            }
+            br.close();
+
+        }
+        catch (Exception e){
+            return false;
+        }
+        return true;
+    }
+
+    public static void updateDefinitionHistory(String definition,List<SlangWord> slangWords) throws IOException {
+        SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
+        Date date = new Date();
+        String dateStr = formatter.format(date);
+
+        BufferedWriter br = new BufferedWriter(
+                new FileWriter("definitionHistory.txt",true));
+        br.write(dateStr+":     SearchString: "+definition+"    List Slang:"+ slangWords.toString() +"\n");
+        br.flush();
+        br.close();
+    }
+    public static boolean printDefinitionHistory(){
+        try {
+            File definitionHistoryFile = new File("definitionHistory.txt");
+            if(!definitionHistoryFile.exists()){
+                System.out.println("Chưa có lịch sử tìm kiếm");
+                return false;
+            }
+            BufferedReader br = new BufferedReader(new FileReader(definitionHistoryFile));
+            String str = br.readLine();
+            while(true){
+                if(str ==null){
+                    break;
+                }
+                else{
+                    System.out.println(str);
+                }
+                str= br.readLine();
+            }
+
+            br.close();
+        }
+        catch (Exception e){
+            return false;
+        }
+        return true;
+    }
     public static void initSlangWords() throws IOException {
         try {
             BufferedReader br = new BufferedReader(new FileReader("edited-slang.txt"));
-            String str = br.readLine();
+            String str;
             while(true){
                 str= br.readLine();
                 if(str ==null){

@@ -13,6 +13,7 @@ public class Main {
         while (isContinue){
             try{
                 printMenu();
+                // Tham khảo Slide Tuần 2 thầy Nguyễn Văn Khiết
                 BufferedReader br = new BufferedReader(
                         new InputStreamReader(System.in, "utf8"));
                 String str = br.readLine();
@@ -297,6 +298,7 @@ public class Main {
     }
     public static List<SlangWord> findSlangWordByDefinition(String definition){
         CharSequence charSequence = definition;
+        // Tham khảo: https://stackoverflow.com/questions/24112715/java-8-filter-array-using-lambda
         Predicate<SlangWord> definitionFilter =  slangWord -> slangWord.getDefinition().contains(charSequence);
         List<SlangWord> filterList = slangWordArrayList.stream().filter(definitionFilter).collect(Collectors.toList());
         return filterList;
@@ -421,6 +423,7 @@ public class Main {
         }
     }
     public static void updateSlangHistory(SlangWord slangWord) throws IOException {
+        // Tham khảo: https://www.javatpoint.com/java-date-to-string
         SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
         Date date = new Date();
         String dateStr = formatter.format(date);
@@ -458,6 +461,7 @@ public class Main {
     }
 
     public static void updateDefinitionHistory(String definition,List<SlangWord> slangWords) throws IOException {
+        // Tham khảo: https://www.javatpoint.com/java-date-to-string
         SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
         Date date = new Date();
         String dateStr = formatter.format(date);

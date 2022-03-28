@@ -1,12 +1,12 @@
 public class SlangWord {
     private String slangWord;
+    private String definition;
 
     public SlangWord(String slangWord, String definition) {
         this.slangWord = slangWord;
         this.definition = definition;
     }
 
-    private String definition;
 
     public String getSlangWord() {
         return slangWord;

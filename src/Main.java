@@ -19,11 +19,11 @@ public class Main {
                 int choose = Integer.parseInt(str);
                 switch (choose){
                     case 1:{
-                        System.out.println("Nhập SlangWord muốn tìm: ");
+                        System.out.println("Input SlangWord you want to find: ");
                         str = br.readLine();
                         SlangWord slangWord = findSlangWord(str);
                         if(slangWord ==null){
-                            System.out.println("Không tồn tại SlangWord.");
+                            System.out.println("SlangWord doesn't exist .");
                         }
                         else{
                             System.out.println(slangWord);
@@ -32,11 +32,11 @@ public class Main {
                         break;
                     }
                     case 2:{
-                        System.out.println("Nhập định nghĩa:");
+                        System.out.println("Input definition:");
                         str = br.readLine();
                         List<SlangWord> filterList = findSlangWordByDefinition(str);
                         if(filterList.size()==0){
-                            System.out.println("Không tồn tại SlangWord nào phù hợp");
+                            System.out.println("No SlangWord is suitable");
                         }
                         for (int i=0;i<filterList.size();i++){
                             System.out.println(filterList.get(i));
@@ -45,14 +45,14 @@ public class Main {
                         break;
                     }
                     case 3:{
-                        System.out.println("1. Tìm theo SlangWord");
-                        System.out.println("2. Tìm theo Definition");
+                        System.out.println("1. Find by SlangWord");
+                        System.out.println("2. Find by Definition");
                         str = br.readLine();
                         switch (Integer.parseInt(str)){
                             case 1:{
                                 if(printSlangHistory()){
-                                    System.out.println("\nBạn có muốn xóa toàn bộ lịch sử: ");
-                                    System.out.println("1. Có       2. Không");
+                                    System.out.println("\nDo you want to delete all the history? ");
+                                    System.out.println("1. Yes       2. No");
                                     if(br.readLine().equals("1")){
                                         clearSlangHistory();
                                     }
@@ -62,8 +62,8 @@ public class Main {
                             }
                             case 2:{
                                 if(printDefinitionHistory()){
-                                    System.out.println("Bạn có muốn xóa toàn bộ lịch sử: ");
-                                    System.out.println("1. Có       2. Không");
+                                    System.out.println("Do you want to delete all the history? ");
+                                    System.out.println("1. Yes       2. No");
                                     if(br.readLine().equals("1")){
                                         clearDefinitionHistory();
                                     }
@@ -78,88 +78,88 @@ public class Main {
                     case 4:{
                         Boolean isCorrect = false;
                         do{
-                            System.out.println("Nhập Slangword cần thêm:");
+                            System.out.println("Input the SlangWord:");
                             String slang = br.readLine();
-                            System.out.println("Nhập định nghĩa:");
+                            System.out.println("Input definition:");
                             String definition = br.readLine();
                             isCorrect = addNewSlangWord(slang,definition);
                             if(!isCorrect){
-                                System.out.println("SlangWord đã tồn tại.");
+                                System.out.println("SlangWord existed.");
                             }
                         }
                         while (!isCorrect);
                         break;
                     }
                     case 5:{
-                        System.out.println("Nhập SlangWord cần chỉnh sửa:");
+                        System.out.println("Input SlangWord you want to modify:");
                         String oldSlang  = br.readLine();
                         SlangWord editSlang = findSlangWord(oldSlang);
                         if(editSlang==null){
-                            System.out.println("SlangWord không tồn tại.");
+                            System.out.println("SlangWord doesn't exist.");
                         }
                         else{
                             System.out.println(editSlang);
-                            System.out.println("Chọn thành phần muốn chỉnh sửa:");
+                            System.out.println("Choose property:");
                             System.out.println("1. Slang        2. Definition");
                             str = br.readLine();
                             String newSlang = editSlang.getSlangWord();
                             String newDefinition = editSlang.getDefinition();
                             switch (Integer.parseInt(str)){
                                 case 1:{
-                                    System.out.println("Nhập Slangword mới:");
+                                    System.out.println("New SlangWord:");
                                     newSlang = br.readLine();
 
                                     break;
                                 }
                                 case 2:{
-                                    System.out.println("Nhập định nghĩa mới:");
+                                    System.out.println("New Definition:");
                                     newDefinition = br.readLine();
                                     break;
                                 }
                             }
                             boolean res = editSlangword(editSlang,newSlang,newDefinition);
                             if(res){
-                                System.out.println("Chỉnh sưa thành công");
-                                System.out.println("Kết quả: "+ editSlang);
+                                System.out.println("Success");
+                                System.out.println("Result: "+ editSlang);
                             }
                             else{
-                                System.out.println("SlangWord mới có thể đã tồn tại.");
+                                System.out.println("SlangWord may be existed.");
                             }
 
                         }
                         break;
                     }
                     case 6:{
-                        System.out.println("Nhập SlangWord muốn xóa:");
+                        System.out.println("Input SlangWord you want to delete:");
                         str = br.readLine();
                         boolean res = deleteSlangWord(str);
                         if(res){
-                            System.out.println("Xóa thành công");
+                            System.out.println("Deleted");
                         }
                         else{
-                            System.out.println("Xóa thất bại");
+                            System.out.println("Failed");
                         }
                         break;
                     }
                     case 7:{
-                        System.out.println("Bạn có muốn reset lại danh sách SlangWord");
-                        System.out.println("1. Có       2. Không");
+                        System.out.println("Do you want to reset the SlangWord original list");
+                        System.out.println("1. Yes       2. No");
                         str = br.readLine();
                         if(Integer.parseInt(str)==1){
                             if(resetSlangWords()){
-                                System.out.println("Reset thành công");
+                                System.out.println("Success");
                             }
                             else {
-                                System.out.println("Đã xảy ra lỗi.");
+                                System.out.println("Some error happened.");
                             }
                         }
                         else{
-                            System.out.println("Reset thất bại");
+                            System.out.println("Failed");
                         }
                         break;
                     }
                     case 8:{
-                        System.out.println("Từ vừa Random: "+randomSlangWord());
+                        System.out.println("The random word : "+randomSlangWord());
                         break;
                     }
                     case 9:{
@@ -168,10 +168,11 @@ public class Main {
                     }
                     case 10:{
                         miniGameDefinition();
+                        break;
                     }
                     case 11:{
-                        System.out.println("Bạn có chắc muốn thoát chương trình:");
-                        System.out.println("1.  Có      2. Không");
+                        System.out.println("Are you sure want to exit:");
+                        System.out.println("1.  Yes      2. No");
                         str = br.readLine();
                         if(str.equals("1")){
                             return;
@@ -182,7 +183,7 @@ public class Main {
                         break;
                     }
                 }
-                System.out.println("Nhấn Enter để tiếp tục.");
+                System.out.println("Enter to continue.");
                 br.readLine();
 
             }
@@ -200,12 +201,12 @@ public class Main {
        Random random = new Random();
        int indexResult = random.nextInt(4);
        SlangWord result = listSlangWordForMiniGame.get(indexResult);
-        System.out.println("Đâu là định nghĩa của \""+result.getSlangWord()+"\":");
+        System.out.println("Which is the definition of \""+result.getSlangWord()+"\":");
         System.out.println("A. "+ listSlangWordForMiniGame.get(0).getDefinition());
         System.out.println("B. "+ listSlangWordForMiniGame.get(1).getDefinition());
         System.out.println("C. "+ listSlangWordForMiniGame.get(2).getDefinition());
         System.out.println("D. "+ listSlangWordForMiniGame.get(3).getDefinition());
-        System.out.println("Mời chọn kết quả: ");
+        System.out.println("Your choice: ");
         BufferedReader br = new BufferedReader(
                 new InputStreamReader(System.in, "utf8"));
         String str = br.readLine();
@@ -229,13 +230,13 @@ public class Main {
             }
         }
         if(userChosen == indexResult){
-            System.out.println("Chính xác: "+ result.toString());
+            System.out.println("Correct: "+ result.toString());
         }
         else{
-            System.out.println("Không chính xác. Kết quả là: "+ result.toString());
+            System.out.println("Not correct. The answer is: "+ result.toString());
         }
-        System.out.println("Bạn có muốn tiếp tục: ");
-        System.out.println("1. Có       2. Không");
+        System.out.println("Continue?: ");
+        System.out.println("1. Yes       2. No");
         str = br.readLine();
         if(Integer.parseInt(str)==1){
             miniGameSlang();
@@ -249,12 +250,12 @@ public class Main {
         Random random = new Random();
         int indexResult = random.nextInt(4);
         SlangWord result = listSlangWordForMiniGame.get(indexResult);
-        System.out.println("Đâu là SlangWord của \""+result.getDefinition()+"\" trong các SlangWord sau:");
+        System.out.println("Which is the write SlangWord of \""+result.getDefinition()+"\" in the SlangWords below:");
         System.out.println("A. "+ listSlangWordForMiniGame.get(0).getSlangWord());
         System.out.println("B. "+ listSlangWordForMiniGame.get(1).getSlangWord());
         System.out.println("C. "+ listSlangWordForMiniGame.get(2).getSlangWord());
         System.out.println("D. "+ listSlangWordForMiniGame.get(3).getSlangWord());
-        System.out.println("Mời chọn kết quả: ");
+        System.out.println("Your choice: ");
         BufferedReader br = new BufferedReader(
                 new InputStreamReader(System.in, "utf8"));
         String str = br.readLine();
@@ -278,13 +279,13 @@ public class Main {
             }
         }
         if(userChosen == indexResult){
-            System.out.println("Chính xác: "+ result.toString());
+            System.out.println("Correct: "+ result.toString());
         }
         else{
-            System.out.println("Không chính xác. Kết quả là: "+ result.toString());
+            System.out.println("Not correct. The answer is: "+ result.toString());
         }
-        System.out.println("Bạn có muốn tiếp tục: ");
-        System.out.println("1. Có       2. Không");
+        System.out.println("Continue? ");
+        System.out.println("1. Yes       2. No");
         str = br.readLine();
         if(Integer.parseInt(str)==1){
             miniGameDefinition();
@@ -333,8 +334,8 @@ public class Main {
             return false;
         }
         else{
-            System.out.println("Bạn có chắc muốn xóa SlangWord này:  "+ removeSlang);
-            System.out.println("1. Đồng ý           2. Không đồng ý");
+            System.out.println("Are you sure you want to delete this SlangWord:  "+ removeSlang);
+            System.out.println("1. Yes          2. No");
             BufferedReader br = new BufferedReader(
                     new InputStreamReader(System.in, "utf8"));
             String str = br.readLine();
@@ -357,18 +358,18 @@ public class Main {
     }
     public static void printMenu()  {
         System.out.println("SLANGWORD");
-        System.out.println("1.Tiềm kiếm SlangWord");
-        System.out.println("2.Tìm kiếm theo định nghĩa");
-        System.out.println("3.Lịch sử tìm kiếm");
-        System.out.println("4.Thêm SlangWord mới");
-        System.out.println("5.Chỉnh sửa một SlangWord");
-        System.out.println("6.Xóa SlangWord");
-        System.out.println("7.Reset SlangWords gốc");
-        System.out.println("8.Random 1 SlangWords");
-        System.out.println("9.Đố vui SlangWord");
-        System.out.println("10.Đố vui Definition");
-        System.out.println("11.Thoát chương trình");
-        System.out.println("Nhập số tương ứng với tính năng muốn chọn:");
+        System.out.println("1.Find a SlangWord");
+        System.out.println("2.Find by definition");
+        System.out.println("3.History");
+        System.out.println("4.New SlangWord");
+        System.out.println("5.Edit a SlangWord");
+        System.out.println("6.Delete SlangWord");
+        System.out.println("7.Reset Original SlangWord List");
+        System.out.println("8.Random a SlangWords");
+        System.out.println("9.MiniGame SlangWord");
+        System.out.println("10.MiniGame Definition");
+        System.out.println("11.Exit");
+        System.out.println("Input feature you want to choose:");
     }
     public static boolean resetSlangWords() throws IOException {
         try {
@@ -391,7 +392,7 @@ public class Main {
             br.close();
         }
         catch (Exception e){
-            System.out.println("Vui lòng tạo file slang.txt gốc");
+            System.out.println("Need file slang.txt");
             return false;
         }
         return true;
@@ -433,7 +434,7 @@ public class Main {
         try {
             File slangHistoryFile = new File("slangHistory.txt");
             if(!slangHistoryFile.exists()){
-                System.out.println("Chưa có lịch sử tìm kiếm");
+                System.out.println("No history found");
                 return false;
             }
             BufferedReader br = new BufferedReader(new FileReader(slangHistoryFile));
@@ -471,7 +472,7 @@ public class Main {
         try {
             File definitionHistoryFile = new File("definitionHistory.txt");
             if(!definitionHistoryFile.exists()){
-                System.out.println("Chưa có lịch sử tìm kiếm");
+                System.out.println("No history found");
                 return false;
             }
             BufferedReader br = new BufferedReader(new FileReader(definitionHistoryFile));

@@ -27,7 +27,7 @@ public class Main {
                             System.out.println("SlangWord doesn't exist .");
                         }
                         else{
-                            System.out.println(slangWord);
+                            System.out.println("Your SlangWord: "+ slangWord);
                             updateSlangHistory(slangWord);
                         }
                         break;
@@ -184,9 +184,10 @@ public class Main {
                         break;
                     }
                 }
+
                 System.out.println("Enter to continue.");
                 br.readLine();
-
+                cls();
             }
             catch (Exception exception){
                 continue;
@@ -359,7 +360,7 @@ public class Main {
         return slangWordArrayList.get(index);
     }
     public static void printMenu()  {
-        System.out.println("SLANGWORD");
+        System.out.println("----------SLANGWORD----------");
         System.out.println("1.Find a SlangWord");
         System.out.println("2.Find by definition");
         System.out.println("3.History");
@@ -402,7 +403,6 @@ public class Main {
     public static void updateSlangFile() throws IOException {
         BufferedWriter br = new BufferedWriter(
                 new FileWriter("edited-slang.txt"));
-        br.write(slangWordArrayList.size()+"\n");
         for(int i = 0;i<slangWordArrayList.size();i++){
             br.write(slangWordArrayList.get(i).getSlangWord()+"`"+slangWordArrayList.get(i).getDefinition()+"\n");
         }
@@ -522,5 +522,15 @@ public class Main {
     public static SlangWord convertStringToSangWord(String str){
         String[] tokens =  str.split("`");
         return new SlangWord(tokens[0],tokens[1]);
+    }
+    // Tham khảo : https://www.delftstack.com/howto/java/java-clear-console/
+    public static void cls(){
+        try{
+            new ProcessBuilder("cmd","/c","cls").inheritIO().start().waitFor();
+
+        }
+        catch (Exception e){
+            System.out.println(e);
+        }
     }
 }
